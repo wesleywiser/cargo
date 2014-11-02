@@ -60,6 +60,7 @@ macro_rules! each_subcommand( ($macro:ident) => ({
     $macro!(clean)
     $macro!(config_for_key)
     $macro!(config_list)
+    $macro!(dependency)
     $macro!(doc)
     $macro!(fetch)
     $macro!(generate_lockfile)

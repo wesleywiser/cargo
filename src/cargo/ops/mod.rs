@@ -8,6 +8,7 @@ pub use self::cargo_rustc::{BuildOutput, BuildConfig, TargetConfig};
 pub use self::cargo_run::run;
 pub use self::cargo_new::{new, NewOptions};
 pub use self::cargo_doc::{doc, DocOptions};
+pub use self::cargo_dependency::{dependency, Add, AddOptions, Remove};
 pub use self::cargo_generate_lockfile::{generate_lockfile};
 pub use self::cargo_generate_lockfile::{update_lockfile};
 pub use self::cargo_generate_lockfile::UpdateOptions;
@@ -24,6 +25,7 @@ pub use self::resolve::{resolve_pkg, resolve_with_previous};
 
 mod cargo_clean;
 mod cargo_compile;
+mod cargo_dependency;
 mod cargo_doc;
 mod cargo_fetch;
 mod cargo_generate_lockfile;
