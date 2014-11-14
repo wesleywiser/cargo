@@ -1,8 +1,8 @@
-use core::{MultiShell, SourceId, Dependency, Source};
+use core::{MultiShell, SourceId, Dependency, Source, Summary, Manifest};
 use util::{CargoResult, CliError, ToUrl, human};
 use sources::{PathSource};
 use cargo::util::important_paths::{find_root_manifest_for_cwd};
-use toml::Encoder;
+use toml::{Encoder, encode_str};
 use std::io::fs::{File};
 use serialize::{Encodable};
 
@@ -46,14 +46,23 @@ fn add(options: AddOptions,
 
     dependencies.push(new_dependency);
 
-    let mut encoder = Encoder::new();
+    let summary = manifest.get_summary();
+    let new_summary = try!(Summary::new(summary.get_package_id().clone(), dependencies, summary.get_features().clone()));
+  
+    let new_manifest = Manifest::new(new_summary, 
+                                     manifest.get_targets().to_vec(), 
+                                     manifest.get_target_dir().clone(),
+                                     manifest.get_doc_dir().clone(),
+                                     manifest.get_build().to_vec(),
+                                     manifest.get_exclude().to_vec(),
+                                     manifest.get_links().map(|s| s.to_string()),
+                                     manifest.get_metadata().clone());
 
-    //dependencies.encode(&mut encoder).unwrap();
-    manifest.encode(&mut encoder).unwrap(); 
+    let content = encode_str(&new_manifest);
 
-    let content = encoder.toml.to_string();
+    println!("{}", content);
 
-    try!(File::create(&manifest_path).write_str(content.as_slice()));
+    //try!(File::create(&manifest_path).write_str(content.as_slice()));
 
     Ok(())
 }
