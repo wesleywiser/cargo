@@ -5,3 +5,4 @@
 /config.mk
 src/doc/build
 rustc
+*.swp
